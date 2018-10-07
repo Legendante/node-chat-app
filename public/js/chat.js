@@ -2,6 +2,26 @@ var socket = io();
 socket.on('connect', function () {
 	console.log("Connected to server");
 	
+	// getParameterByName(name, url)
+	
+	params = {
+		name: getParameterByName('name'),
+		room: getParameterByName('room')
+	};
+	
+	socket.emit('join', params, function (err) 
+	{
+		if(err)
+		{
+			alert(err);
+			window.location.href = '/';
+		}
+		else
+		{
+			console.log('No error');
+		}
+	});
+	
 	// socket.emit('createEmail', {
 		// to: 'jen@example.com',
 		// text: 'Hi there person'
@@ -40,6 +60,15 @@ socket.on('newLocationMessage', function (msg) {
 	$('#messages').append('<li>' + formattedTime + ': From: ' + msg.from + ' - <a href="' + msg.url + '" target="_blank">Location</a></li>');
 });	
 
+socket.on('updateUserList', function (users) {
+	console.log('Users list', users);
+	$('#userList').html('');
+	users.forEach(function (user)
+	{	
+		$('#userList').append('<p>' + user + '</p>');
+	});
+});
+
 
 // socket.emit('createMessage', { from: 'mike@example.com', text: 'Hey there' }, function (data) 
 // {
@@ -49,7 +78,7 @@ socket.on('newLocationMessage', function (msg) {
 $('#message-form').on('submit', function (e) 
 {
 	e.preventDefault();
-	socket.emit('createMessage', { from: 'User', text: $('#message').val() }, function (data) 
+	socket.emit('createMessage', { text: $('#message').val() }, function (data) 
 	{
 		console.log('Got it', data);
 	});
@@ -77,3 +106,17 @@ locationButton.on('click', function (e)
 		alert('Unable to fetch location');
 	});
 });
+
+
+function getParameterByName(name, url) 
+{
+    if (!url) 
+		url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'), results = regex.exec(url);
+    if (!results) 
+		return null;
+    if (!results[2]) 
+		return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
