@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset='utf-8'>
-<title>Join | Chat App</title>
+<title>Chat | Chat App</title>
 <meta name='viewport' content='width=device-width, intial-scale=1, user-scalable=no'>
 </head>
 <body>
@@ -10,22 +10,20 @@
 	
 	<ol id='messages'></ol>
 	
-	<form action='/chat.html'>
-		<h3>Join a chat</h3>
-		<div>
-			<label>Display name</label>
-			<input type='text' name='name' autofocus>
-		</div>
-		<div>
-			<label>Room name</label>
-			<input type='text' name='room'>
-		</div>
-		<button>Join</button>
+	<form id='message-form'>
+		<input type='text' name='message' id='message' placeholder='Type your message here'/>
+		<button>Send</button>
 	</form>
+	<button id='send-location' onclick=''>Send Location</button>
+	
+	<script id='message-template' type='text/template'>
+		<p>{{date}} {{name}}: {{msg}}</p>
+	</script>
+	
 	<script src='/socket.io/socket.io.js'></script>
 	<script src='/js/libs/jquery-3.3.1.min.js'></script>
 	<script src='/js/libs/moment.js'></script>
 	<script src='/js/libs/mustache.min.js'></script>
-	<script src='/js/index.js'></script>
+	<script src='/js/chat.js'></script>
 </body>
 </html>
