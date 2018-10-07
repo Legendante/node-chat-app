@@ -22,20 +22,25 @@ io.on('connection', (socket) =>
 		created: 123
 	});
 	
-	socket.emit('newMessage', {
-		from: 'me@mydomain.com',
-		text: 'Hey there',
-		created: 12345 // new Date().getTime();
-	});
+	// socket.emit('newMessage', {
+		// from: 'me@mydomain.com',
+		// text: 'Hey there',
+		// created: 12345 // new Date().getTime();
+	// });
 	
-	socket.on('createEmail', (newEmail) =>
-	{
-		console.log('createEmail', newEmail);
-	});
+	// socket.on('createEmail', (newEmail) =>
+	// {
+		// console.log('createEmail', newEmail);
+	// });
 	
 	socket.on('createMessage', (newMsg) =>
 	{
 		console.log('createMessage', newMsg);
+		io.emit('newMessage', {
+			from: newMsg.from,
+			text: newMsg.text,
+			createdAt: new Date().getTime()
+		});
 	});
 	
 	socket.on('disconnect', (inp) =>
