@@ -15,12 +15,13 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) =>
 {
 	console.log('New user connected');
-	
-	socket.emit('newEmail', {
-		from: 'mike@example.com',
-		text: 'Hey there',
-		created: 123
-	});
+	socket.emit('newMessage', { from: "Admin", text: "Welcome new user", createdAt: new Date().getTime()});
+	socket.broadcast.emit('newMessage', { from: "Admin", text: "A new user has joined", createdAt: new Date().getTime()});
+	// socket.emit('newEmail', {
+		// from: 'mike@example.com',
+		// text: 'Hey there',
+		// created: 123
+	// });
 	
 	// socket.emit('newMessage', {
 		// from: 'me@mydomain.com',
@@ -41,6 +42,11 @@ io.on('connection', (socket) =>
 			text: newMsg.text,
 			createdAt: new Date().getTime()
 		});
+		// socket.broadcast.emit('newMessage', {
+			// from: newMsg.from,
+			// text: newMsg.text,
+			// createdAt: new Date().getTime()
+		// });
 	});
 	
 	socket.on('disconnect', (inp) =>
