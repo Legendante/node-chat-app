@@ -36,15 +36,16 @@ io.on('connection', (socket) =>
 		// console.log('createEmail', newEmail);
 	// });
 	
-	socket.on('createMessage', (newMsg) =>
+	socket.on('createMessage', (newMsg, callback) =>
 	{
 		console.log('createMessage', newMsg);
 		io.emit('newMessage', generateMessage(newMsg.from, newMsg.text));
+		callback('This is from the server');
+	});
 	
-		socket.on('disconnect', (inp) =>
-		{
-			console.log('Client connection disconnected');
-		});
+	socket.on('disconnect', (inp) =>
+	{
+		console.log('Client connection disconnected');
 	});
 });
 // io.on('disconnect', (socket) =>
